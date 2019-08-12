@@ -3,16 +3,22 @@ import * as math from './math'
 import './style'
 
 function component() {
-    return import(/* webpackChunkName "lodash" */ 'lodash').then(_ => {
+    // var element = document.createElement('div')
+    // element.innerHTML = [
+    //     'hello webpack!',
+    //     '5 cubed is equal to' + math.cube(4)
+    // ].join('\n\n')
+    // return element
+    return import(/* webpackChunkName: 'lodash' */ 'lodash').then(_ => {
         var element = document.createElement('div')
-        element.innerHTML = [
-            'hello webpack!',
-            '5 cubed is equal to' + math.cube(4)
-        ].join('\n\n')
+        element.innerHTML = _.join(['hello', 'webpack'], '')
         return element
-    }).catch(() => console.error('xixixi'))
+    }).catch(err => 'an error occurred !')
 }
 
-component().then(component => {
-    document.body.appendChild(component)
-})
+// document.body.appendChild(component())
+setTimeout(() => {
+    component().then(component => {
+        document.body.appendChild(component)
+    })    
+}, 3000)

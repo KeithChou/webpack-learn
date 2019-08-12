@@ -1,3 +1,10 @@
+/**
+ * 1. HMR(hot module replacement, 热模块替换)实现
+ * 2. tree shaking实现
+ * 3. 生产环境构建(区分开发环境和线上环境)
+ * 4. 代码分离
+ */
+
 const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -9,12 +16,12 @@ module.exports = {
     mode: 'development',
     entry: {
         app: './src/index',
-        another: './src/another-module'
+        // another: './src/another-module'
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].bundle.[hash:8].js',
-        chunkFilename: '[name].bundle.[hash:8].js',
+        filename: '[name].bundle.[hash:8].js', // 用于以entry为入口的chunk
+        chunkFilename: '[name].bundle.[chunkhash:8].js', // 用于动态加载的chunk
         sourceMapFilename: 'sourcemaps/[file].map'
     },
     module: {
