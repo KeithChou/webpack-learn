@@ -1,24 +1,21 @@
-// import _ from 'lodash'
 import * as math from './math'
 import './style'
+import $ from 'jquery'
 
 function component() {
-    // var element = document.createElement('div')
-    // element.innerHTML = [
-    //     'hello webpack!',
-    //     '5 cubed is equal to' + math.cube(4)
-    // ].join('\n\n')
-    // return element
-    return import(/* webpackChunkName: 'lodash' */ 'lodash').then(_ => {
-        var element = document.createElement('div')
-        element.innerHTML = _.join(['hello', 'webpack'], '')
-        return element
-    }).catch(err => 'an error occurred !')
+    var element = document.createElement('div')
+    var btn = document.createElement('button')
+    btn.innerHTML = 'click me!'
+    // element.innerHTML = _.join(['hello', 'webpack', ' '])
+    element.appendChild(btn)
+    btn.onclick = () => import(/* webpackChunkName: 'lodash' */ 'lodash').then(_ => {
+        console.log(111, _)
+    })
+    return element
 }
 
-// document.body.appendChild(component())
-setTimeout(() => {
-    component().then(component => {
-        document.body.appendChild(component)
-    })    
-}, 3000)
+console.log(111, $)
+
+console.log(jQuery)
+
+document.body.appendChild(component())
