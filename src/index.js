@@ -1,21 +1,27 @@
-import * as math from './math'
 import './style'
-import $ from 'jquery'
+// import _ from 'lodash'
 
-function component() {
-    var element = document.createElement('div')
-    var btn = document.createElement('button')
-    btn.innerHTML = 'click me!'
-    // element.innerHTML = _.join(['hello', 'webpack', ' '])
-    element.appendChild(btn)
-    btn.onclick = () => import(/* webpackChunkName: 'lodash' */ 'lodash').then(_ => {
-        console.log(111, _)
-    })
-    return element
+// function component() {
+//     var element = document.createElement('div')
+//     element.innerHTML = _.join(['hello', 'webpack', ' '])
+//     var btn = document.createElement('btn')
+//     btn.innerHTML = 'click me'
+//     element.appendChild(btn)
+//     return element
+// }
+
+
+// document.body.appendChild(component())
+
+
+function component () {
+    return import(/* webpackChunkName: 'lodash' */ 'lodash').then(_ => {
+        const element = document.createElement('div')
+        element.innerHTML = _.join(['hello', 'webpack', ' '])
+        return element
+    }).catch(err => console.error(111, err))
 }
 
-console.log(111, $)
-
-console.log(jQuery)
-
-document.body.appendChild(component())
+setTimeout(() => {
+    component().then(ele => document.body.appendChild(ele))
+}, 2000)

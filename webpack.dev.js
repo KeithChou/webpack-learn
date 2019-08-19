@@ -11,7 +11,7 @@ module.exports = merge(config, {
         contentBase: path.resolve(__dirname, 'dist')
     },
     plugins: [
-        new webpack.HashedModuleIdsPlugin(),
+        new webpack.NamedChunksPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development')

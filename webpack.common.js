@@ -21,7 +21,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].bundle.[hash:8].js', // 用于以entry为入口的chunk
-        chunkFilename: '[name].bundle.[chunkhash:16].js', // 用于动态加载的chunk
+        chunkFilename: '[name].bundle.js', // 用于动态加载的chunk
         sourceMapFilename: 'sourcemaps/[file].map',
         library: 'jQuery',
         libraryTarget: 'window'
@@ -29,19 +29,20 @@ module.exports = {
     module: {
         rules: [{
             test: /\.css$/,
-            use: [{
+            use: [{ // use多个loader
                 loader: MiniCssExtractPlugin.loader,
                 options: {
                     hmr: devMode
                 }
             }, 'css-loader']
+        }, {
+            test: /\.js$/,
+            include: path.resolve(__dirname, 'src'),
+            loader: 'babel-loader' // 单个loader
         }]
     },
     resolve: {
         extensions: ['.js', '.json', '.css']
-    },
-    externals: {
-        jquery: 'jQuery'
     },
     plugins: [
         new CleanWebpackPlugin(),
