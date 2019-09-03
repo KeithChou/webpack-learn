@@ -5,16 +5,23 @@ const webpack = require('webpack')
 
 module.exports = merge(config, {
     devtool: 'inline-source-map',
+    mode: 'development',
     devServer: {
-        hot: true,
-        compress: true,
-        contentBase: path.resolve(__dirname, 'dist')
+        contentBase: path.resolve(__dirname, 'dist'),
+        // hot: true, // hmr
+        compress: true, // 所有来之dist目录下面的页面都坐gzip压缩
+        port: 8080,
+        headers: {
+            'kkk': 12123
+        }
+    },
+    resolve: {
+        
     },
     plugins: [
         new webpack.NamedChunksPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('development')
+        new webpack.BannerPlugin({
+            banner: '哈哈哈'
         })
     ]
 })

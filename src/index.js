@@ -1,27 +1,19 @@
-import './style'
-// import _ from 'lodash'
+import './style.css'
+import axois from 'axios'
+import _ from 'lodash'
+import { square } from './math'
 
-// function component() {
-//     var element = document.createElement('div')
-//     element.innerHTML = _.join(['hello', 'webpack', ' '])
-//     var btn = document.createElement('btn')
-//     btn.innerHTML = 'click me'
-//     element.appendChild(btn)
-//     return element
-// }
-
-
-// document.body.appendChild(component())
-
-
-function component () {
-    return import(/* webpackChunkName: 'lodash' */ 'lodash').then(_ => {
-        const element = document.createElement('div')
-        element.innerHTML = _.join(['hello', 'webpack', ' '])
-        return element
-    }).catch(err => console.error(111, err))
+function component() {
+    var element = document.createElement('div')
+    element.innerHTML = _.join(['hello', 'test', ' '])
+    var btn = document.createElement('btn')
+    btn.innerHTML = 'click me';
+    btn.onclick = () => {
+        console.error(square(3))
+    }
+    element.appendChild(btn)
+    return element
 }
 
-setTimeout(() => {
-    component().then(ele => document.body.appendChild(ele))
-}, 2000)
+document.body.appendChild(component())
+

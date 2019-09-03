@@ -20,11 +20,10 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].bundle.[hash:8].js', // 用于以entry为入口的chunk
-        chunkFilename: '[name].bundle.js', // 用于动态加载的chunk
+        filename: '[name].[contenthash:8].js', // 用于以entry为入口的chunk
+        // chunkFilename: '[name].bundle.[hash:16].js', // 用于动态加载的chunk
         sourceMapFilename: 'sourcemaps/[file].map',
-        library: 'jQuery',
-        libraryTarget: 'window'
+        devtoolNamespace: 'webpack'
     },
     module: {
         rules: [{
@@ -42,22 +41,37 @@ module.exports = {
         }]
     },
     resolve: {
-        extensions: ['.js', '.json', '.css']
+        alias: {},
+        extensions: ['.js', '.json', '.css', '*'],
+        mainFields: ['browser', 'module', 'main'],
+        mainFiles: ['index'],
+        modules: ['node_modules']
+    },
+    externals: {
+        jquery: 'jQuery'
     },
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: 'index.html',
-            title: 'xixixi'
+            filename: 'index.html', // build后要生成的文件
+            template: 'index.html', // 基于模板生成对应的html
+            title: 'xix呵呵呵ixi', // html文件的title
+            excludeChunks: ['math']
         }),
         new MiniCssExtractPlugin({
-            filename: devMode ? '[name].css' : '[name].[hash:8].css',
+            filename: devMode ? '[name].css' : '[name].[contenthash:8].css',
         })
     ],
     optimization: {
+        runtimeChunk: 'single',
         splitChunks: {
-            chunks: 'all'
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all'
+                }
+            }
         }
     }
 }
