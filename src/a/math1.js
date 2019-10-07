@@ -1,5 +1,11 @@
 import _ from 'lodash'
 
+
+import * as test from '../test'
+console.log(312, test)
+
+console.log(123, _)
+
 export function square (x) {
     return x * x
 }

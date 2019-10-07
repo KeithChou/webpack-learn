@@ -1,19 +1,20 @@
-import './style.css'
-import axois from 'axios'
 import _ from 'lodash'
-import { square } from './math'
+import Vue from 'vue'
+import helper from './helper'
+import './style.css'
 
-function component() {
-    var element = document.createElement('div')
-    element.innerHTML = _.join(['hello', 'test', ' '])
-    var btn = document.createElement('btn')
-    btn.innerHTML = 'click me';
-    btn.onclick = () => {
-        console.error(square(3))
-    }
-    element.appendChild(btn)
-    return element
-}
+import(/* webpackChunkName: "test" */'./test').then(res => {
+    console.log(1, res)
+})
 
-document.body.appendChild(component())
+var arr = [0, 1, 'a', false];
 
+console.log(2, helper);
+
+console.log(22, Vue);
+
+console.log(arr.filter(Boolean));
+
+var a = setTimeout(() => console.log(1), 4000)
+
+console.log(23, a)

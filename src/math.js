@@ -1,13 +1,9 @@
+import Vue from 'vue'
 import _ from 'lodash'
+import helper from './helper'
 
-export function square (x) {
-    return x * x
-}
+console.log(4, Vue)
 
-export function cube (x) {
-    return x
-}
+console.log(5, _)
 
-cube({
-    aaaa: 12312311221
-})
+console.log(6, helper)

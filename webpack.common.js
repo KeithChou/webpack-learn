@@ -10,18 +10,20 @@ const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const webpack = require('webpack')
 
-const devMode = process.env.NODE_ENV !== 'production'
+/**
+ * dev环境下开启hmr模式，使用chunkhash时，webpack4会报错
+ */
 
 module.exports = {
     mode: 'development',
     entry: {
-        app: './src/index'
+        app: './src/index',
+        math1: './src/math'
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].[contenthash:8].js', // 用于以entry为入口的chunk
-        // chunkFilename: '[name].bundle.[hash:16].js', // 用于动态加载的chunk
         sourceMapFilename: 'sourcemaps/[file].map',
         devtoolNamespace: 'webpack'
     },
@@ -31,7 +33,7 @@ module.exports = {
             use: [{ // use多个loader
                 loader: MiniCssExtractPlugin.loader,
                 options: {
-                    hmr: devMode
+                    hmr: true
                 }
             }, 'css-loader']
         }, {
@@ -56,22 +58,19 @@ module.exports = {
             filename: 'index.html', // build后要生成的文件
             template: 'index.html', // 基于模板生成对应的html
             title: 'xix呵呵呵ixi', // html文件的title
-            excludeChunks: ['math']
+            excludeChunks: ['math1']
         }),
-        new MiniCssExtractPlugin({
-            filename: devMode ? '[name].css' : '[name].[contenthash:8].css',
+        new HtmlWebpackPlugin({
+            filename: 'math.html', // build后要生成的文件
+            template: 'math.html', // 基于模板生成对应的html
+            title: 'xix呵呵呵ixi', // html文件的title
+            excludeChunks: ['index']
         })
     ],
     optimization: {
-        runtimeChunk: 'single',
+        runtimeChunk: true,
         splitChunks: {
-            cacheGroups: {
-                vendor: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendors',
-                    chunks: 'all'
-                }
-            }
+            chunks: 'all'
         }
     }
 }
