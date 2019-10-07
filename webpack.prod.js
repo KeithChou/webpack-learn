@@ -13,7 +13,7 @@ module.exports = merge(config, {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: '[name].[chunkhash:8].css',
+            filename: '[name].[chunkhash:8].css'
         }),
         new webpack.HashedModuleIdsPlugin()
     ]

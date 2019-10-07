@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import Vue from 'vue'
 import helper from './helper'
-import './style.css'
+import a1 from './style.css'
 
 import(/* webpackChunkName: "test" */'./test').then(res => {
     console.log(1, res)
