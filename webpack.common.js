@@ -18,6 +18,8 @@ const devEnv = process.env.NODE_ENV === 'development'
  * dev环境下开启hmr模式，使用chunkhash时，webpack4会报错
  */
 
+ console.log(process.env.NODE_ENV)
+
 module.exports = {
     mode: 'development',
     entry: {
