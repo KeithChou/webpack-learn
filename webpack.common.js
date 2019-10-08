@@ -12,6 +12,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpack = require('webpack')
 
+const devEnv = process.env.NODE_ENV === 'development'
+
 /**
  * dev环境下开启hmr模式，使用chunkhash时，webpack4会报错
  */
@@ -23,6 +25,8 @@ module.exports = {
         math1: './src/math'
     },
     output: {
+        filename: devEnv ? '[name].[hash:8].js' : '[name].[chunkhash:8].js', // 用于以entry为入口的chunk
+        chunkFilename: devEnv ? '[name].[hash:8].js' : '[name].[chunkhash:8].js', // 用于动态加载的chunk
         path: path.resolve(__dirname, 'dist'),
         sourceMapFilename: 'sourcemaps/[file].map',
         devtoolNamespace: 'webpack'
@@ -33,7 +37,7 @@ module.exports = {
             use: [{ // use多个loader
                 loader: MiniCssExtractPlugin.loader,
                 options: {
-                    hmr: true
+                    hmr: devEnv
                 }
             }, 'css-loader']
         }, {
@@ -65,6 +69,9 @@ module.exports = {
             template: 'math.html', // 基于模板生成对应的html
             title: 'xix呵呵呵ixi', // html文件的title
             excludeChunks: ['index']
+        }),
+        new MiniCssExtractPlugin({
+            filename: devEnv ? '[name].[hash:8].css' : '[name].[chunkhash:8].css'
         })
     ],
     optimization: {
