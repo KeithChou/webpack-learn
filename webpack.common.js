@@ -12,13 +12,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpack = require('webpack')
 
-const devEnv = process.env.NODE_ENV === 'development'
+const devEnv = process.env.NODE_ENV !== 'production'
 
 /**
  * dev环境下开启hmr模式，使用chunkhash时，webpack4会报错
  */
-
- console.log(process.env.NODE_ENV)
 
 module.exports = {
     mode: 'development',
@@ -27,8 +25,8 @@ module.exports = {
         math1: './src/math'
     },
     output: {
-        filename: devEnv ? '[name].[hash:8].js' : '[name].[chunkhash:8].js', // 用于以entry为入口的chunk
-        chunkFilename: devEnv ? '[name].[hash:8].js' : '[name].[chunkhash:8].js', // 用于动态加载的chunk
+        filename: devEnv ? '[name].[hash:8].js' : '[name].[contenthash:8].js', // 用于以entry为入口的chunk
+        chunkFilename: devEnv ? '[name].[hash:8].js' : '[name].[contenthash:8].js', // 用于动态加载的chunk
         path: path.resolve(__dirname, 'dist'),
         sourceMapFilename: 'sourcemaps/[file].map',
         devtoolNamespace: 'webpack'
@@ -39,9 +37,10 @@ module.exports = {
             use: [{ // use多个loader
                 loader: MiniCssExtractPlugin.loader,
                 options: {
-                    hmr: devEnv
+                    hmr: devEnv,
+                    reloadAll: true
                 }
-            }, 'css-loader']
+            }, 'css-loader', 'sass-loader']
         }, {
             test: /\.js$/,
             include: path.resolve(__dirname, 'src'),
@@ -73,13 +72,27 @@ module.exports = {
             excludeChunks: ['index']
         }),
         new MiniCssExtractPlugin({
-            filename: devEnv ? '[name].[hash:8].css' : '[name].[chunkhash:8].css'
+            filename: devEnv ? '[name].css' : '[name].[contenthash:8].css'
         })
     ],
     optimization: {
         runtimeChunk: true,
+        sideEffects: false,
+        moduleIds: 'hashed',
         splitChunks: {
-            chunks: 'all'
+            cacheGroups: {
+                vendor: {
+                    test: /node_modules/,
+                    name: 'vendors',
+                    chunks: 'all'
+                },
+                common: {
+                    test: /\.js$/,
+                    name: 'common',
+                    chunks: 'all',
+                    minChunks: 2
+                }
+            }
         }
     }
 }

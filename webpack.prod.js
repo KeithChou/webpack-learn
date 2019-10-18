@@ -7,6 +7,6 @@ module.exports = merge(config, {
     devtool: 'source-map',
     mode: 'production',
     plugins: [
-        new webpack.HashedModuleIdsPlugin()
+        // new webpack.HashedModuleIdsPlugin()
     ]
 })

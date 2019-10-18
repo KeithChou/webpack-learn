@@ -1,3 +1,1 @@
-import _ from 'lodash'
-
-console.log(_.join(['another', 'module', 'load!']))
+console.log(11111111111)
